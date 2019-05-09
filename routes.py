@@ -30,9 +30,8 @@ def sensorDataFake():
 
 @app.route('/sensorData')
 def sensorData():
-    timeList = []
     powerList = []
-    voltageList = []
+    currentList = []
 
     f = open("credentials.txt", "r")
     password = f.read()
@@ -40,14 +39,12 @@ def sensorData():
 
     col = mw.queryCol(db, "SensorReadings")
     for doc in col:
-        timeList.append(doc['Time'])
-        powerList.append(doc['Power'])
-        voltageList.append(doc['Current'])
+        powerList.append({'x':doc['Time'], 'y': doc['Power']})
+        currentList.append({'x':doc['Time'], 'y': doc['Current']})
 
     payload = {}
-    payload['timeList'] = timeList
     payload['powerList'] = powerList
-    payload['voltageList'] = voltageList
+    payload['currentList'] = currentList
         
     return jsonify(payload)
 
