@@ -1,19 +1,13 @@
 from flask import Flask, jsonify, render_template
 from flask_cors import CORS
+import os
 import mongo.mongoWrapper as mw
+
+DOCS_PATH = os.path.join('static', 'scrs')
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = DOCS_PATH
 CORS(app)
-
-# SCR_PATH = os.path.join('docs', 'SCR')
-
-# app = Flask(__name__)
-# app.config['UPLOAD_FOLDER'] = SCR_PATH
-
-# @app.route('/')
-# @app.route('/index')
-# def show_index():
-#     full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'shovon.jpg')
-#     return render_template("index.html", user_image = full_filename)
 
 @app.route('/')
 def root():
@@ -61,7 +55,8 @@ def sensorData():
 
 @app.route('/scr')
 def scr():
-    return render_template('scr.html', name='scr')
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'SCR.jpg')
+    return render_template("scr.html", scr_image = full_filename)
 
 
 if __name__ == '__main__':
