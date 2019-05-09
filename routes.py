@@ -70,7 +70,7 @@ def faultPredict():
 
     data = pd.read_csv("Results.csv")
     for i, row in data.iterrows():
-        predictionList.append({'index':index, 'score': row['r2_score']})
+        predictionList.append({'x':index, 'y': row['r2_score']})
         index -= 1
 
     return jsonify(predictionList)
