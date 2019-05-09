@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, render_template
 from flask_cors import CORS
+from flask import request
 import os
+import pandas as pd
 import mongo.mongoWrapper as mw
 
 DOCS_PATH = os.path.join('static', 'scrs')
@@ -57,6 +59,23 @@ def sensorData():
 def scr():
     full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'SCR.jpg')
     return render_template("scr.html", scr_image = full_filename)
+
+@app.route('/faultPredict')
+def faultPredict():
+    time = request.args.get('time')
+
+    predictionList = []
+
+    data = pd.read_csv("Results.csv")
+    for index, row in data.iterrows():
+        predictionList.append(row['r2_score'])
+
+    retDict = {
+        'predictionList': predictionList,
+        'index': '30201'
+    }
+
+    return jsonify(retDict)
 
 
 if __name__ == '__main__':
