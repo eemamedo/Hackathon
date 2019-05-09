@@ -66,18 +66,17 @@ def faultPredict():
 
     predictionList = []
 
+    index = 302013
+
     data = pd.read_csv("Results.csv")
-    for index, row in data.iterrows():
-        predictionList.append(row['r2_score'])
+    for i, row in data.iterrows():
+        predictionList.append({'index':index, 'score': row['r2_score']})
+        index -= 1
 
-    retDict = {
-        'predictionList': predictionList,
-        'index': '30201'
-    }
-
-    return jsonify(retDict)
+    return jsonify(predictionList)
 
 
 if __name__ == '__main__':
     app.run()
 
+ 
